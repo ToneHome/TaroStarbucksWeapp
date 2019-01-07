@@ -29,8 +29,8 @@ export default class Carousel extends Component {
       >
         {this.props.imgList.map((item,index) => {
           return (
-            <SwiperItem key={index}>
-              <Image src={item} />
+            <SwiperItem key={item.activity_id}>
+              <Image src={item.imgUrl} />
             </SwiperItem>
           );
         })}

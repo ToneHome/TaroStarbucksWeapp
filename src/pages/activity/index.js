@@ -6,7 +6,7 @@ export default class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: "123"
+      title: ""
     };
   }
 
