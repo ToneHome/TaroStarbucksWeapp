@@ -1,12 +1,14 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import "./index.less";
+import { AdImg } from './components';
 
 export default class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title: ""
+      title: '',
+      activity_id: ''
     };
   }
 
@@ -14,15 +16,20 @@ export default class index extends Component {
     navigationBarTitleText: ''
   };
 
-  componentDidMount () {
-      Taro.setNavigationBarTitle(
-          {
-              title:this.state.title
-          }
-      )
+  componentDidMount() {
+    Taro.setNavigationBarTitle(
+      {
+        title: this.state.title
+      }
+    )
   }
-  
+  componentWillMount() {
+    this.setState(this.$router.params)
+  }
+
   render() {
-    return <View>132</View>;
+    return <View>
+      <AdImg></AdImg>
+    </View>;
   }
 }

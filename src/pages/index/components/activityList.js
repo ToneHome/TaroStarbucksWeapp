@@ -1,7 +1,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import ActivityItem from './activityItem'
-import './activity.less';
+import './activityList.less';
 
 export default class ActivityList extends Component {
   constructor(props) {

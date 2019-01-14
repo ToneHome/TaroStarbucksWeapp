@@ -8,7 +8,7 @@ export default class ActivityItem extends Component {
   }
   goDetail() {
     Taro.navigateTo({
-      url: "/pages/activity/index"
+      url: `/pages/activity/index?activity_id=${this.props.item.activity_id}&title=${this.props.item.text}`
     });
   }
   render() {

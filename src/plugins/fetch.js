@@ -6,37 +6,41 @@
  *  fetch 封装
  * Copyright (c) 2019 Your Company
  */
- import Taro from '@tarojs/taro'
-
+import Taro from "@tarojs/taro";
 
 export const baseUrl = "http://yapi.demo.qunar.com/mock/37254/starbucks";
 
-export function getHttp(url,params) {
+export function getHttp(url, params) {
   url = baseUrl + url;
   return new Promise(function(resolve, reject) {
-      Taro.request({
-        url: url,
-        data: params,
-        header: {
-            'content-type': 'application/json'
-        }
-})
-  .then(res => resolve(res.data))
+    Taro.request({
+      url: url,
+      data: params,
+      header: {
+        "content-type": "application/json"
+      }
+    })
+      .then(res => resolve(res.data))
+      .catch(rs => {
+        reject(rs);
+      });
   });
 }
 
-
-export function postHttp(url,params) {
+export function postHttp(url, params) {
   url = baseUrl + url;
   return new Promise(function(resolve, reject) {
-      Taro.request({
-        url: url,
-        data: params,
-        method:"post",
-        header: {
-            'content-type': 'application/json'
-        }
-})
-  .then(res => resolve(res.data))
+    Taro.request({
+      url: url,
+      data: params,
+      method: "post",
+      header: {
+        "content-type": "application/json"
+      }
+    })
+      .then(res => resolve(res.data))
+      .catch(rs => {
+        reject(rs);
+      });
   });
 }
