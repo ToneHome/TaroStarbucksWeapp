@@ -21,6 +21,13 @@ export default class itemList extends Component {
     super(props)
   }
 
+  add(index){
+    console.log(index);
+  }
+
+  reduce(index){
+    console.log(index);
+  }
   render() {
     return (
       <View className="item-list">
@@ -30,7 +37,7 @@ export default class itemList extends Component {
         {
           this.props.itemList.map((item,index) => {
               return (
-                <Item  item={item}></Item>
+                <Item key={index} index={index}  item={item} add={this.add.bind(this,index)} reduce={this.reduce.bind(this,index)}></Item>
               )
           })
         }

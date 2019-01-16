@@ -11,7 +11,7 @@
  * Copyright 2018 - 2019 Tone Lee, MIT
  */
 
-import Taro, { Component } from "@tarojs/taro";
+import Taro, { Component,Events } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import "./index.less";
 import { AdImg,ItemList } from './components';
@@ -38,6 +38,10 @@ export default class index extends Component {
         title: this.state.title
       }
     );
+    const events = new Events();
+    Taro.eventCenter.on('addGood', (item,index) => {
+      this.add(item,index);
+    })
   }
   componentWillMount() {
     this.setState(this.$router.params);
@@ -56,10 +60,18 @@ export default class index extends Component {
     })
   }
 
+  add(item,index){
+    console.log(item,index);
+  }
+
+  reduce(index){
+    console.log(index);
+  }
+
   render() {
     return <View>
       <AdImg imgList={this.state.imgList}></AdImg>
-      <ItemList itemList={this.state.itemList}></ItemList>
+      <ItemList itemList={this.state.itemList} add={this.add.bind(this,index)} reduce={this.reduce.bind(this,index)}></ItemList>
     </View>;
   }
 }

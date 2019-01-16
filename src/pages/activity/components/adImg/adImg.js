@@ -14,9 +14,7 @@
 import Taro, { Component } from "@tarojs/taro";
 import { View, Image } from "@tarojs/components";
 import './adImg.less';
-
 import BigImg from './bigImg.js';
-
 
 export default class AdImg extends Component {
   constructor(props) {
