@@ -1,3 +1,16 @@
+/*
+ * File: index.js
+ * Project: myApp
+ * File Created: Monday, 14th January 2019 3:05:59 pm
+ * desc: index page
+ * Author: Tone Lee (tonelee522@outlook.com)
+ * -----
+ * Last Modified: Wednesday, 16th January 2019 4:34:49 pm
+ * Modified By: Tone Lee (tonelee522@outlook.com)
+ * -----
+ * Copyright 2018 - 2019 Tone Lee, MIT
+ */
+
 import Taro, { Component } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.less'
