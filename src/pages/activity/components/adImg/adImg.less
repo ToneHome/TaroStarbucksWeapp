@@ -3,12 +3,15 @@
     .img-swip{
         width: 100%;
         overflow-x: auto;
+        overflow-y: hidden;
         -webkit-overflow-scrolling: touch;
+        
         .img-list{
             width: 200%;
             margin-top: 30px;
         }
     }
+    .img-swip::-webkit-scrollbar {display:none};
     .img-item{
         width: 200px;
         height: 100px;

@@ -11,7 +11,7 @@
  * Copyright 2018 - 2019 Tone Lee, MIT
  */
 
-import Taro, { Component ,Events} from "@tarojs/taro";
+import Taro, { Component } from "@tarojs/taro";
 import { View, Image, Button } from "@tarojs/components";
 import "./item.less";
 
@@ -20,11 +20,14 @@ export default class Item extends Component {
     super(props);
   }
 
-  addItem(index,item,e){
+  addItem(item,index,e){
     e.preventDefault();
-    // console.log(index,item);
-    const events = new Events();
     Taro.eventCenter.trigger('addGood', item,index);
+  }
+
+  reduceItem(item,index,e){
+    e.preventDefault();
+    Taro.eventCenter.trigger('reduceGood', item,index);
   }
 
   render() {
@@ -36,28 +39,26 @@ export default class Item extends Component {
           <View className="good-price">￥{this.props.item.itemPrice}</View>
         </View>
         <View className="good-ctrl">
-          <Button
-            size="mini"
+          <View 
             className={`reduce num-btn ${
               this.props.item.num == 0 ? "hide" : ""
             }`}
-            type="primary"
-          >
-            -
-          </Button>
+            onClick={this.reduceItem.bind(this,this.props.item,this.props.index)}
+            > 
+           -
+          </View>
           <View
             className={`good-num ${this.props.item.num == 0 ? "hide" : ""}`}
           >
             {this.props.item.num}
           </View>
-          <Button
-            size="mini"
+
+          <View
             className="add num-btn"
-            onClick={this.addItem.bind(this,this.props.index,this.props.item)}
-            type="primary"
+            onClick={this.addItem.bind(this,this.props.item,this.props.index)}
           >
             +
-          </Button>
+          </View>
         </View>
       </View>
     );

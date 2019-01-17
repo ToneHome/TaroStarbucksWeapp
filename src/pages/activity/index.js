@@ -11,10 +11,10 @@
  * Copyright 2018 - 2019 Tone Lee, MIT
  */
 
-import Taro, { Component,Events } from "@tarojs/taro";
+import Taro, { Component } from "@tarojs/taro";
 import { View } from "@tarojs/components";
 import "./index.less";
-import { AdImg,ItemList } from './components';
+import { AdImg, ItemList, ShopCart } from './components';
 import { getHttp } from '../../plugins/fetch';
 
 export default class index extends Component {
@@ -24,7 +24,14 @@ export default class index extends Component {
       title: '',
       activity_id: '',
       imgList: [],
-      itemList:[]
+      itemList: [],
+      shopCart: {
+        goodsNum: 0,
+        totalPrice: 0,
+        postData: {
+          itemList: []
+        }
+      }
     };
   }
 
@@ -33,45 +40,87 @@ export default class index extends Component {
   };
 
   componentDidMount() {
+    this.initData();
     Taro.setNavigationBarTitle(
       {
         title: this.state.title
       }
     );
-    const events = new Events();
-    Taro.eventCenter.on('addGood', (item,index) => {
-      this.add(item,index);
+
+    Taro.eventCenter.on('addGood', (item, index) => {
+      this.add(item, index);
+    });
+
+    Taro.eventCenter.on('reduceGood', (item, index) => {
+      this.reduce(item, index);
     })
   }
-  componentWillMount() {
+
+  initData() {
     this.setState(this.$router.params);
     getHttp('/getAdImg', { activity_id: this.$router.params.activity_id }).then(rs => {
       this.setState({
         imgList: rs.data.imgList
       })
     });
-    getHttp('/itemList',{ activity_id: this.$router.params.activity_id }).then(rs => {
+    getHttp('/itemList', { activity_id: this.$router.params.activity_id }).then(rs => {
       rs.data.itemList.forEach(element => {
         element['num'] = 0;
       });
       this.setState({
-        itemList:rs.data.itemList
+        itemList: rs.data.itemList
       });
     })
   }
 
-  add(item,index){
-    console.log(item,index);
+  add(item, index) {
+    let itemList = this.state.itemList;
+    itemList[index].num++;
+    this.setState({
+      itemList: itemList
+    });
+    this.calcShopCart();
   }
 
-  reduce(index){
-    console.log(index);
+  reduce(item, index) {
+    let itemList = this.state.itemList;
+    if (itemList[index].num > 0) {
+      itemList[index].num--;
+      this.setState({
+        itemList: itemList
+      });
+    }
+    this.calcShopCart();
+  }
+
+  calcShopCart() {
+    let goodsNum = 0, totalPrice = 0, itemList = [];
+    this.state.itemList.map(item => {
+      if (item.num > 0) {
+        goodsNum = goodsNum + item.num;
+        totalPrice = totalPrice + item.num * item.itemPrice;
+        itemList.push({
+          itemId: item.itemId,
+          num: item.num
+        })
+      }
+    })
+    this.setState({
+      shopCart: {
+        goodsNum: goodsNum,
+        totalPrice: totalPrice,
+        postData: {
+          itemList: itemList
+        }
+      }
+    })
   }
 
   render() {
     return <View>
       <AdImg imgList={this.state.imgList}></AdImg>
-      <ItemList itemList={this.state.itemList} add={this.add.bind(this,index)} reduce={this.reduce.bind(this,index)}></ItemList>
+      <ItemList itemList={this.state.itemList}></ItemList>
+      <ShopCart shopCart={this.state.shopCart}></ShopCart>
     </View>;
   }
 }
